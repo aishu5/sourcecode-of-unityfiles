@@ -1,0 +1,183 @@
+change scene:-
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class ChangeScene : MonoBehaviour {
+
+		// Update is called once per frame
+	public void Changetoscene (string scenetochangeto) {
+        Application.LoadLevel(scenetochangeto);
+
+    }
+}
+
+
+code for gaze
+   transform.position += new Vector3(0f, 1f, 0f);
+
+----------------------------------
+        Destroy(this.gameObject)
+All you're doing in your code is checking for mousebutton events. You need to tell the engine where the mouse cursor is, what object you're clicking on. You also probably have this script attached to each cube, that's why ALL of them are changing. Look into Raycast, and use ScreenPointToRay to define your Ray.
+Here's an example. Don't forget to either rename the class in the script, or rename the script to match the class name. Attach THIS script to one object only, preferably the main camera.
+1.	 using UnityEngine;
+2.	 using System.Collections;
+3.	 
+4.	 public class RaycastExample : MonoBehaviour 
+5.	 {
+6.	     Ray ray;
+7.	     RaycastHit hit;
+8.	     
+9.	     void Update()
+10.	     {
+11.	         //Be sure to have a main camera that is tagged "MainCamera" for this example to work.
+12.	         ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+13.	         if(Physics.Raycast(ray, out hit))
+14.	         {
+15.	             //Left Click, change to red.
+16.	             if(Input.GetMouseButtonDown(0))
+17.	             {
+18.	                 hit.collider.renderer.material.color = Color.red;
+19.	             }
+20.	             
+21.	             //Right Click, change to blue.
+22.	             if(Input.GetMouseButtonDown(1))
+23.	             {
+24.	                 hit.collider.renderer.material.color = Color.blue;
+25.	             }
+26.	         }
+27.	     }
+28.	 }
+
+You can also use OnMouseOver function for this, which would be a simpler solution but require you to attach the script to every object you'll need to click on. I'd tell you to use OnMouseDown, but OnMouseDown only detects left mouse button. Using OnMouseOver will allow you to detect that you're hovering over the object, then use your Input instruction to determine the button pressed.
+1.	 using UnityEngine;
+2.	 using System.Collections;
+3.	 
+4.	 public class OnMouseOverExample : MonoBehaviour 
+5.	 {
+6.	     void OnMouseOver()
+7.	     {
+8.	         if(Input.GetMouseButtonDown(0))
+9.	             renderer.material.color = Color.red;
+10.	         if(Input.GetMouseButtonDown(1))
+11.	             renderer.material.color = Color.blue;
+12.	     }
+13.	 }
+14.	 
+
+
+
+
+
+
+
+
+
+
+1.	
+2.	
+3.	
+4.	using UnityEngine;
+5.	using System.Collections;
+6.	
+7.	public class RaycastExample : MonoBehaviour 
+8.	{
+9.	Ray ray;
+10.	RaycastHit hit;
+11.	
+12.	void Update()
+13.	{
+14.	//Be sure to have a main camera that is tagged "MainCamera" for this example to work.
+15.	ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+16.	if(Physics.Raycast(ray, out hit))
+17.	{
+18.	//Left Click, change to red.
+19.	if(Input.GetMouseButtonDown(0))
+20.	{
+21.	hit.collider.renderer.material.color = Color.red;
+22.	}
+23.	
+24.	//Right Click, change to blue.
+25.	if(Input.GetMouseButtonDown(1))
+26.	{
+27.	hit.collider.renderer.material.color = Color.blue;
+28.	}
+29.	}
+30.	}
+31.	}
+32.	using UnityEngine;
+33.	using System.Collections;
+34.	
+35.	public class RaycastExample : MonoBehaviour 
+36.	{
+37.	Ray ray;
+38.	RaycastHit hit;
+39.	
+40.	void Update()
+41.	{
+42.	//Be sure to have a main camera that is tagged "MainCamera" for this example to work.
+43.	ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+44.	if(Physics.Raycast(ray, out hit))
+45.	{
+46.	//Left Click, change to red.
+47.	if(Input.GetMouseButtonDown(0))
+48.	{
+49.	hit.collider.renderer.material.color = Color.red;
+50.	}
+51.	
+52.	//Right Click, change to blue.
+53.	if(Input.GetMouseButtonDown(1))
+54.	{
+55.	hit.collider.renderer.material.color = Color.blue;
+56.	}
+57.	}
+58.	}
+59.	}
+
+
+Another code:-
+60.	using UnityEngine;
+61.	using System.Collections;
+
+public class ExampleClass : MonoBehaviour {
+62.	    void Example() {
+63.	        transform.Translate(1, 1, 1);
+64.	    }
+65.	}
+
+
+
+Transform.position
+SWITCH TO MANUAL
+
+public Vector3 position;
+Description
+The position of the transform in world space.
+using UnityEngine;
+using System.Collections;
+
+public class ExampleClass : MonoBehaviour {
+    void Example() {
+        transform.position = new Vector3(0, 0, 0);
+        print(transform.position.x);
+    }
+}
+Transform.rotation
+
+using UnityEngine;
+using System.Collections;
+
+public class ExampleClass : MonoBehaviour {
+    void Example() {
+        transform.rotation = Quaternion.identity;
+    }
+}
+Quaternion
+struct in UnityEngine
+Description
+Quaternions are used to represent rotations.
+They are compact, don't suffer from gimbal lock and can easily be interpolated. Unity internally uses Quaternions to represent all rotations.
+
+They are based on complex numbers and are not easy to understand intuitively. You almost never access or modify individual Quaternion components (x,y,z,w); most often you would just take existing rotations (e.g. from the Transform) and use them to construct new rotations (e.g. to smoothly interpolate between two rotations). The Quaternion functions that you use 99% of the time are: Quaternion.LookRotation, Quaternion.Angle, Quaternion.Euler, Quaternion.Slerp, Quaternion.FromToRotation, and Quaternion.identity. (The other functions are only for exotic uses.)
+
+You can use the Quaternion.operator * to rotate one rotation by another, or to rotate a vector by a rotation.
