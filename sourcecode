@@ -1,0 +1,439 @@
+Code for timegaze:-
+
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+
+public class timedgaze : MonoBehaviour {
+    public float gazeTime = 2f;
+
+    private float timer;
+
+    private bool gazedAt;
+
+
+    // Use this for initialization
+    void Start () {
+		
+	}
+	
+	// Update is called once per frame
+	void Update () {
+        if (gazedAt)
+        {
+            timer += Time.deltaTime;
+
+            if (timer >= gazeTime)
+            {
+                transform.position += new Vector3(0f, 1f, 0f);
+                timer = 0f;
+            }
+
+        }
+
+    }
+    public void pointerenter()
+    {
+        //Debug.Log("pointer enter");
+        gazedAt = true;
+    }
+
+    public void pointerexit()
+    {
+        //Debug.Log("pointer exit");
+        gazedAt = false;
+    }
+    public void pointerdown()
+    {
+        Debug.Log("pointer down");
+    }
+}
+
+To move cube upward:-
+
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class pp : MonoBehaviour
+{
+
+    // Use this for initialization
+    void Start()
+    {
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
+    public void MoveBoxUp()
+    {
+        transform.position += new Vector3(0f, 1f, 0f);
+    }
+}
+
+
+
+To rotate the cube:-
+
+
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class moveright : MonoBehaviour
+{
+
+    // Use this for initialization
+    void Start()
+    {
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
+    public void MoveBoxright()
+    {
+        transform.Rotate(0, 0, 1);
+    }
+}
+
+
+To move upward by clicking left button
+
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class jj : MonoBehaviour
+{
+
+    // Use this for initialization
+    void Start()
+    {
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+        if (inputmousebutton(0))
+        {
+
+
+            transform.position += new Vector3(0f, 1f, 0f);
+        }
+    }
+}
+-----------------------------------------------------------------------------------------------
+Color changing by clicking mouse
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+//Make sure to change the class name (CCSphere) to whatever you called your script.
+public class nh : MonoBehaviour
+{
+
+    public Material[] materials;//Allows input of material colors in a set size of array;
+    public Renderer Rend; //What are we rendering? Input object(Sphere,Cylinder,...) to render.
+
+    private int index = 1;//Initialize at 1, otherwise you have to press the ball twice to change colors at first.
+
+    // Use this for initialization
+    void Start()
+    {
+        Rend = GetComponent<Renderer>();//Gives functionality for the renderer
+        Rend.enabled = true;//Makes the rendered 3d object visable if enabled;
+    }
+
+    public void moveupbox()
+    {
+
+        if (materials.Length == 0)//If there are no materials nothing happens.
+            return;
+
+       
+        
+            index += 1;//When mouse is pressed down we increment up to the next index location
+
+            if (index == materials.Length + 1)//When it reaches the end of the materials it starts over.
+                index = 1;
+
+            print(index);//used for debugging
+
+            Rend.sharedMaterial = materials[index - 1]; //This sets the material color values inside the index
+        
+    }
+}
+Color changing:-
+using UnityEngine;
+using System.Collections;
+public class Cubes : MonoBehaviour
+{
+    void Update()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            gameObject.GetComponent<Renderer>().material.color = Color.red;
+        }
+
+        if (Input.GetMouseButtonDown(1))
+        {
+            gameObject.GetComponent<Renderer>().material.color = Color.green;
+        }
+    }
+}
+Color changing
+
+using UnityEngine;
+using System.Collections;
+
+public class dd : MonoBehaviour
+{
+    Ray ray;
+    RaycastHit hit;
+
+    void Update()
+    {
+        //Be sure to have a main camera that is tagged "MainCamera" for this example to work.
+        ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(ray, out hit))
+        {
+            //Left Click, change to red.
+            if (Input.GetMouseButtonDown(0))
+            {
+                hit.collider.GetComponent<Renderer>().material.color = Color.red;
+            }
+
+            //Right Click, change to blue.
+            if (Input.GetMouseButtonDown(1))
+            {
+                hit.collider.GetComponent<Renderer>().material.color = Color.blue;
+            }
+        }
+    }
+}
+Livingroom colorchnage
+
+
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+//Make sure to change the class name (CCSphere) to whatever you called your script.
+public class tochangematerial : MonoBehaviour
+{
+
+    public Material[] materials;//Allows input of material colors in a set size of array;
+    public Renderer Rend; //What are we rendering? Input object(Sphere,Cylinder,...) to render.
+
+    private int index = 1;//Initialize at 1, otherwise you have to press the ball twice to change colors at first.
+
+    // Use this for initialization
+    void Start()
+    {
+        Rend = GetComponent<Renderer>();//Gives functionality for the renderer
+        Rend.enabled = true;//Makes the rendered 3d object visable if enabled;
+    }
+
+    public void moveupbox()
+    {
+
+        if (materials.Length == 0)//If there are no materials nothing happens.
+            return;
+
+
+
+        index += 1;//When mouse is pressed down we increment up to the next index location
+
+        if (index == materials.Length + 1)//When it reaches the end of the materials it starts over.
+            index = 1;
+
+        print(index);//used for debugging
+
+        Rend.sharedMaterial = materials[index - 1]; //This sets the material color values inside the index
+
+    }
+}
+To rotate right
+
+
+transform.Rotate(0, 1, 0);
+
+
+timedgaze for sphere to change material:-
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class spheretimegaze : MonoBehaviour {
+    public float gazeTime = 2f;
+
+    private float timer;
+
+    private bool gazedAt;
+
+
+    // Use this for initialization
+    void Start () {
+		
+	}
+	
+	// Update is called once per frame
+	void Update () {
+        if (gazedAt)
+        {
+            timer += Time.deltaTime;
+
+            if (timer >= gazeTime)
+            {
+             
+                timer = 0f;
+            }
+
+        }
+
+
+    }
+    public void pointerenter()
+    {
+        //Debug.Log("pointer enter");
+        gazedAt = true;
+    }
+    public void pointerexit()
+    {
+        //Debug.Log("pointer exit");
+        gazedAt = false;
+    }
+    public void pointerdown()
+    {
+        Debug.Log("pointerdown");
+    }
+}
+
+
+To rotate euler angles:-
+   transform.Rotate(transform.rotation.eulerAngles + new Vector3(0f, 0.1f, 0f));
+livingroom -torotaechair:-
+
+
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class torotate : MonoBehaviour {
+    public float gazeTime = 2f;
+
+    private float timer;
+
+    private bool gazedAt;
+    // Use this for initialization
+    void Start () {
+		
+	}
+	
+	// Update is called once per frame
+	void Update () {
+        if (gazedAt)
+        {
+            timer += Time.deltaTime;
+
+            if (timer >= gazeTime)
+            {
+
+                transform.Rotate(transform.rotation.eulerAngles + new Vector3(0f, 0.1f, 0f));
+
+                timer = 0f;
+            }
+
+        }
+    }
+  
+    public void pointerenter()
+    {
+        gazedAt = true;
+    }
+    public void pointerexit()
+    {
+        gazedAt = false;
+    }
+
+
+
+}
+Livingroom to change material of floor:-
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+//Make sure to change the class name (CCSphere) to whatever you called your script.
+public class tochangematerial : MonoBehaviour
+{
+    public float gazeTime = 2f;
+
+    private float timer;
+
+    private bool gazedAt;
+
+    public Material[] materials;//Allows input of material colors in a set size of array;
+    public Renderer Rend; //What are we rendering? Input object(Sphere,Cylinder,...) to render.
+
+    private int index = 1;//Initialize at 1, otherwise you have to press the ball twice to change colors at first.
+
+    // Use this for initialization
+    void Start()
+    {
+        Rend = GetComponent<Renderer>();//Gives functionality for the renderer
+        Rend.enabled = true;//Makes the rendered 3d object visable if enabled;
+    }
+    void Update()
+    {
+        if (gazedAt)
+        {
+            timer += Time.deltaTime;
+
+            if (timer >= gazeTime)
+            {
+
+
+
+
+                if (materials.Length == 0)//If there are no materials nothing happens.
+                    return;
+
+
+
+                index += 1;//When mouse is pressed down we increment up to the next index location
+
+                if (index == materials.Length + 1)//When it reaches the end of the materials it starts over.
+                    index = 1;
+
+                print(index);//used for debugging
+
+                Rend.sharedMaterial = materials[index - 1]; //This sets the material color values inside the index
+
+                timer = 0f;
+            }
+        }
+    }
+    public void pointerenter()
+    {
+        //Debug.Log("pointer enter");
+        gazedAt = true;
+    }
+    public void pointerexit()
+    {
+        //Debug.Log("pointer exit");
+        gazedAt = false;
+    }
+}
+
